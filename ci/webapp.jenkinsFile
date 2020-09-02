@@ -14,7 +14,7 @@ spec:
   serviceAccountName: jenkins
   containers:
   - name: helm-cli
-    image: ibmcom/k8s-helm:v2.6.0
+    image: ibmcom/k8s-helm:latest
     command: ["cat"]
     tty: true
   - name: docker
@@ -38,15 +38,18 @@ spec:
         container('docker') {
           sh """
             cd docker/web
-            docker build ./ -t docker.ask4ua.com/webapp:$BUILD_NUMBER
-            docker push docker.ask4ua.com/webapp:$BUILD_NUMBER
+            docker build ./ -t docker.ask4ua.com/webapp:latest
+            docker push docker.ask4ua.com/webapp:latest
           """
         }
       }
     }
     stage('Deploy for Check') {
       steps {
-        sh "echo Do nothing"
+        container('helm-cli') {
+          cd k8s/helm.webapp
+          helm -n dev upgrade --install webapp ./
+        }
       }
     }
     stage('Release Helm Chart') {
