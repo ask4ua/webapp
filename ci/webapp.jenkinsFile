@@ -48,8 +48,8 @@ spec:
       steps {
         container('helm-cli') {
           sh """
-            cd k8s/helm.webapp
-            helm -n dev upgrade --install webapp ./
+            cd k8s/helm/
+            helm -n dev upgrade --install webapp ./webapp
           """
         }
       }
