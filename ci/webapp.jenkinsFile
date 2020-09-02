@@ -14,7 +14,7 @@ spec:
   serviceAccountName: jenkins
   containers:
   - name: helm-cli
-    image: ibmcom/k8s-helm:latest
+    image: alpine/helm
     command: ["cat"]
     tty: true
   - name: docker
