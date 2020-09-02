@@ -11,7 +11,7 @@ labels:
   scope: jenkins
 spec:
   # Use service account that can deploy to all namespaces
-  serviceAccountName: webapp-deployment
+  serviceAccountName: jenkins-webapp
   containers:
   - name: helm-cli
     image: alpine/helm
