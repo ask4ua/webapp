@@ -47,8 +47,10 @@ spec:
     stage('Deploy for Check') {
       steps {
         container('helm-cli') {
-          cd k8s/helm.webapp
-          helm -n dev upgrade --install webapp ./
+          sh """
+            cd k8s/helm.webapp
+            helm -n dev upgrade --install webapp ./
+          """
         }
       }
     }
