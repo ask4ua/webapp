@@ -13,6 +13,10 @@ spec:
   # Use service account that can deploy to all namespaces
   serviceAccountName: jenkins
   containers:
+  - name: helm-cli
+    image: ibmcom/k8s-helm:v2.6.0
+    command: ["cat"]
+    tty: true
   - name: docker
     image: docker:latest
     command:
@@ -29,7 +33,7 @@ spec:
 }
    }
   stages {
-    stage('Build') {
+    stage('Rebuild Webapp Container') {
       steps {
         container('docker') {
           sh """
@@ -38,6 +42,16 @@ spec:
             docker push docker.ask4ua.com/webapp:$BUILD_NUMBER
           """
         }
+      }
+    }
+    stage('Deploy for Check') {
+      steps {
+        sh "echo Do nothing"
+      }
+    }
+    stage('Release Helm Chart') {
+      steps {
+        sh "echo Do nothing"
       }
     }
   }
