@@ -1,4 +1,7 @@
 pipeline {
+  agent{
+    label="master"
+  }
   parameters {
     string(name: 'DOCKER_REPO',
         defaultValue: 'docker.ask4ua.com',
