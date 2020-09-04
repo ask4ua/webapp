@@ -44,12 +44,11 @@ spec:
       steps {
         container('docker') {
           sh """
-            dockerFullPath="${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
             echo "Docker repo ${env.DOCKER_REPO}"
             cd docker/${env.APPLICATION}
             echo "Starting Docker Build"
-            docker build ./ -t $dockerFullPath
-            docker push $dockerFullPath
+            docker build ./ -t "${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
+            docker push "${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
           """
         }
       }
