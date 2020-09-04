@@ -33,7 +33,7 @@ spec:
         defaultValue: 'docker.ask4ua.com',
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'DOCKER_TAG',
-        defaultValue: '1.0.0',
+        defaultValue: '0.0.0',
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'APPLICATION',
         defaultValue: 'webapp',
@@ -44,11 +44,12 @@ spec:
       steps {
         container('docker') {
           sh """
+            dockerFullPath="${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
             echo "Docker repo ${env.DOCKER_REPO}"
             cd docker/${env.APPLICATION}
             echo "Starting Docker Build"
-            docker build ./ -t "${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
-            docker push "${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
+            docker build ./ -t $dockerFullPath
+            docker push $dockerFullPath
           """
         }
       }
