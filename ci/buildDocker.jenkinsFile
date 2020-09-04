@@ -45,7 +45,9 @@ spec:
         container('docker') {
           sh """
             scriptdockerFullTag="${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
+            echo $scriptdockerFullTag
             cd docker/${env.APPLICATION}
+            echo "Starting Docker Build"
             docker build ./ -t ${scriptdockerFullTag}
             docker push ${scriptdockerFullTag}
           """
