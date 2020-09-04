@@ -15,10 +15,12 @@ pipeline {
   }
   stages {
     stage('Rebuild Application Container') {
-      build job: 'webapp/rebuild', parameters: [
-        [$class: 'StringParameterValue', name: 'APPLICATION', value: 'webapp'],
-        [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com']
-      ]
+      steps {
+        build job: 'webapp/rebuild', parameters: [
+          [$class: 'StringParameterValue', name: 'APPLICATION', value: 'webapp'],
+          [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com']
+        ]
+      }
     }
   }
 }
