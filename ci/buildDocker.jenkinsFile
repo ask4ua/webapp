@@ -44,6 +44,7 @@ spec:
       steps {
         container('docker') {
           sh """
+            echo "Docker repo ${env.DOCKER_REPO}"
             scriptdockerFullTag="${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
             echo $scriptdockerFullTag
             cd docker/${env.APPLICATION}
