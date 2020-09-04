@@ -1,0 +1,56 @@
+pipeline {
+  agent {
+    kubernetes {
+      label 'build-service-pod'
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+labels:
+  scope: jenkins
+spec:
+  # Use service account that can deploy to all namespaces
+  serviceAccountName: jenkins-webapp
+  containers:
+  - name: docker
+    image: docker:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+      name: docker-sock
+  volumes:
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
+"""
+}
+   }
+  parameters {
+    string(name: 'DOCKER_REPO',
+        defaultValue: 'docker.ask4ua.com',
+        description: 'Jenkins secret ID for ARM Registry Credentials')
+    string(name: 'DOCKER_TAG',
+        defaultValue: '1.0.0',
+        description: 'Jenkins secret ID for ARM Registry Credentials')
+    string(name: 'Application',
+        defaultValue: 'webapp',
+        description: 'Jenkins secret ID for ARM Registry Credentials')
+  }
+  stages {
+    stage('Rebuild Application Container') {
+      steps {
+        container('docker') {
+          dockerFullTag="${DOCKER_REPO}/${APPLICATION}:${DOCKER_TAG}-${BUILD_NUMBER}"
+          sh """
+            cd docker/web
+            docker build ./ -t ${dockerFullTag}
+            docker push ${dockerFullTag}
+          """
+        }
+      }
+    }
+  }
+}
