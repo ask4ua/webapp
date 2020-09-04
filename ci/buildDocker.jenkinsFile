@@ -42,10 +42,9 @@ spec:
   stages {
     stage('Rebuild Application Container') {
       steps {
-        scriptdockerFullTag="${DOCKER_REPO}/${APPLICATION}:${DOCKER_TAG}-${BUILD_NUMBER}"
-        
         container('docker') {
           sh """
+            scriptdockerFullTag="${DOCKER_REPO}/${APPLICATION}:${DOCKER_TAG}-${BUILD_NUMBER}"
             cd docker/web
             docker build ./ -t ${scriptdockerFullTag}
             docker push ${scriptdockerFullTag}
