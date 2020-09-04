@@ -21,5 +21,12 @@ pipeline {
         ]
       }
     }
+    stage('Helm Install') {
+      steps {
+        build job: 'deployHelm', parameters: [
+          [$class: 'StringParameterValue', name: 'HELM_NAME', value: 'webapp']
+        ]
+      }
+    }
   }
 }

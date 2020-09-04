@@ -18,26 +18,24 @@ spec:
     command: ["cat"]
     tty: true
 """
-}
-   }
-  stages {
-    stage('Rebuild Webapp Container') {
-      steps {
-        container('docker') {
-          sh """
-            cd docker/web
-            docker build ./ -t docker.ask4ua.com/webapp:latest
-            docker push docker.ask4ua.com/webapp:latest
-          """
-        }
-      }
     }
+  }
+  parameters {
+    string(name: 'HELM_NAME',
+        defaultValue: 'docker.ask4ua.com',
+        description: 'Jenkins secret ID for ARM Registry Credentials')
+    string(name: 'HELM_REPO',
+        defaultValue: '',
+        description: 'Jenkins secret ID for ARM Registry Credentials')
+  }
+
+  stages {
     stage('Deploy for Check') {
       steps {
         container('helm-cli') {
           sh """
             cd k8s/helm/
-            helm -n dev upgrade --install webapp ./webapp
+            helm -n dev upgrade --install ${env.HELM_REPO}${env.HELM_NAME} ${env.HELM_NAME} --wait
           """
         }
       }
