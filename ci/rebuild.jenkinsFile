@@ -1,7 +1,6 @@
 pipeline {
-  agent{
-    label "master"
-  }
+  agent none
+
   parameters {
     string(name: 'DOCKER_REPO',
         defaultValue: 'docker.ask4ua.com',
@@ -16,7 +15,7 @@ pipeline {
   stages {
     stage('Rebuild Application Container') {
       steps {
-        build job: 'webapp/rebuild', parameters: [
+        build job: 'rebuildContainer', parameters: [
           [$class: 'StringParameterValue', name: 'APPLICATION', value: 'webapp'],
           [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com']
         ]
