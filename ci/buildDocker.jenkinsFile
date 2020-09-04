@@ -35,15 +35,15 @@ spec:
     string(name: 'DOCKER_TAG',
         defaultValue: '1.0.0',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-    string(name: 'Application',
+    string(name: 'APPLICATION',
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
   }
   stages {
     stage('Rebuild Application Container') {
       steps {
+        dockerFullTag="${DOCKER_REPO}/${APPLICATION}:${DOCKER_TAG}-${BUILD_NUMBER}"
         container('docker') {
-          dockerFullTag="${DOCKER_REPO}/${APPLICATION}:${DOCKER_TAG}-${BUILD_NUMBER}"
           sh """
             cd docker/web
             docker build ./ -t ${dockerFullTag}
