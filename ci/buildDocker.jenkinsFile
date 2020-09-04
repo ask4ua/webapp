@@ -45,12 +45,10 @@ spec:
         container('docker') {
           sh """
             echo "Docker repo ${env.DOCKER_REPO}"
-            scriptdockerFullTag="${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
-            echo $scriptdockerFullTag
             cd docker/${env.APPLICATION}
             echo "Starting Docker Build"
-            docker build ./ -t ${scriptdockerFullTag}
-            docker push ${scriptdockerFullTag}
+            docker build ./ -t "${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
+            docker push "${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
           """
         }
       }
