@@ -1,6 +1,6 @@
 pipeline {
   agent{
-    label="master"
+    label "master"
   }
   parameters {
     string(name: 'DOCKER_REPO',
