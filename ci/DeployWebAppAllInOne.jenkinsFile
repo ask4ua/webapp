@@ -15,7 +15,7 @@ pipeline {
   stages {
     stage('Rebuild Application Container') {
       steps {
-        build job: 'rebuildContainer', parameters: [
+        build job: 'buildDocker', parameters: [
           [$class: 'StringParameterValue', name: 'APPLICATION', value: 'webapp'],
           [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com']
         ]
