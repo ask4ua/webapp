@@ -11,7 +11,7 @@ labels:
   scope: jenkins
 spec:
   # Use service account that can deploy to all namespaces
-  serviceAccountName: jenkins-webapp
+  serviceAccountName: jenkins-helm-dev
   containers:
   - name: helm-cli
     image: alpine/helm
@@ -22,11 +22,14 @@ spec:
   }
   parameters {
     string(name: 'HELM_NAME',
-        defaultValue: 'docker.ask4ua.com',
-        description: 'Jenkins secret ID for ARM Registry Credentials')
+        defaultValue: '',
+        description: 'Helm deployment name')
+    string(name: 'HELM_RELEASE_NAME',
+        defaultValue: '',
+        description: 'Helm release name')
     string(name: 'HELM_REPO',
         defaultValue: '',
-        description: 'Jenkins secret ID for ARM Registry Credentials')
+        description: 'Helm Repo anem ended with /')
   }
 
   stages {

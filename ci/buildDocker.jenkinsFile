@@ -10,8 +10,7 @@ metadata:
 labels:
   scope: jenkins
 spec:
-  # Use service account that can deploy to all namespaces
-  serviceAccountName: jenkins-webapp
+  # serviceAccountName: jenkins-webapp
   containers:
   - name: docker
     image: docker:latest
