@@ -1,4 +1,5 @@
 REPLACE_IMAGES_SCRIPTS=""
+KUBER_PARAMS="-s https://kubernetes.default.svc --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
 
 pipeline {
   agent {
@@ -40,7 +41,7 @@ spec:
         script {
           IMAGETAGS.split().each { image ->
             imageNoTag=image.split(":")[0]
-            REPLACE_IMAGES_SCRIPTS+="find k8s/${APPLICATION}/ -type f -name '*.y*ml' -exec sed -e -i " + "s/${imageNoTag}:.*/${image}/g" + '{} \; "
+            REPLACE_IMAGES_SCRIPTS+="find k8s/${APPLICATION}/ -type f -name '*.y*ml' -exec sed -e -i " + "s/${imageNoTag}:.*/${image}/g" + '{} \;'
           }
         }
       }
@@ -49,13 +50,12 @@ spec:
       steps {
         container('kubectl') {
           sh """
-            kubectl --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) get pods -A
             ${REPLACE_IMAGES_SCRIPTS}
-            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
-            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
-            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingress/*.yaml;
-            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/services/*.yaml;
-            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/deployments/*.yaml;
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingress/*.yaml;
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/services/*.yaml;
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/deployments/*.yaml;
           """
         }
       }
