@@ -36,16 +36,6 @@ spec:
         description: 'Deployment Namespace')
   }
   stages {
-    stage('Generate Image REplacement scripts') {
-      steps {
-        script {
-          IMAGETAGS.split().each { image ->
-            imageNoTag=image.split(":")[0]
-            REPLACE_IMAGES_SCRIPTS+="""find k8s/${APPLICATION}/ -type f -name '*.y*ml' -exec sed -e -i s/${imageNoTag}:.*/${image}/g" {} \\\;"""
-          }
-        }
-      }
-    }
     stage('Deploy Application') {
       steps {
         container('kubectl') {
