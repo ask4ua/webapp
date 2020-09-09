@@ -50,7 +50,11 @@ spec:
       steps {
         container('kubectl') {
           sh """
-            ${REPLACE_IMAGES_SCRIPTS}
+            for image in ${IMAGETAGS}
+            do
+              imageNoTag=$(echo image | awk -F: '{print $1}')
+              find k8s/${APPLICATION}/ -type f -name '*.y*ml' -exec sed -e -i s/${imageNoTag}:.*/${image}/g" {} \;
+            done
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingress/*.yaml;
