@@ -70,8 +70,8 @@ spec:
             imageTags=imageTags[0..<-1]
           }
           echo "${imageTags}"
+          return "${imageTags}"
         }
-        return "${imageTags}"
       }
     }
   }
