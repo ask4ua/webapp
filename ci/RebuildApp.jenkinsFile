@@ -24,11 +24,11 @@ pipeline {
     stage('Rebuild Application Containers') {
       steps {
         script {
-          IMAGETAGS = (build job: '../buildDocker', parameters: [
+          IMAGETAGS = build job: '../buildDocker', parameters: [
               [$class: 'StringParameterValue', name: 'COMPONENTS', value: "${COMPONENTS}"],
               [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${env.DOCKER_TAG_PREFIX}"],
               [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${env.DOCKER_REPO}"]
-            ], returnStdOut=true)
+            ]
           echo "Retrieved next IMAGETAGS: ${IMAGETAGS}"
         }
       }
