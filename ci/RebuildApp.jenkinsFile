@@ -29,7 +29,9 @@ pipeline {
               [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${env.DOCKER_TAG_PREFIX}"],
               [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${env.DOCKER_REPO}"]
             ]
-          IMAGETAGS=buildDockerJob.getBuildVariables()["IMAGETAGS"]
+          echo buildDockerJob.getBuildVariables()
+
+          IMAGETAGS=""
           echo "Retrieved next IMAGETAGS: ${IMAGETAGS}"
         }
       }
