@@ -31,7 +31,7 @@ pipeline {
             ]
           //echo buildDockerJob.getBuildVariables()
 
-          IMAGETAGS="docker.ask4ua.com/webapp:1.0.0:30 docker.ask4ua.com/db:1.0.0:30"
+          IMAGETAGS="docker.ask4ua.com/webapp:1.0.0:50 docker.ask4ua.com/db:1.0.0:50"
           echo "Retrieved next IMAGETAGS: ${IMAGETAGS}"
         }
       }
