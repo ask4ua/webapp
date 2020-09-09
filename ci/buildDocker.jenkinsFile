@@ -64,8 +64,8 @@ spec:
       steps {
         script {
           imageTags=""
-          COMPONENTS.split().each {
-            imageTags="${getFullImage(${component})}" + " "
+          COMPONENTS.split().each { component ->
+            imageTags=getFullImage(component) + " "
           }
           if(imageTags){
             imageTags=imageTags[0..<-1]
