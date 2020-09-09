@@ -30,6 +30,9 @@ spec:
     string(name: 'HELM_REPO',
         defaultValue: '',
         description: 'Helm Repo anem ended with /')
+    string(name: 'HELM_PARAMETERS',
+        defaultValue: '',
+        description: 'Additional helm parameters')
   }
 
   stages {
@@ -38,7 +41,7 @@ spec:
         container('helm-cli') {
           sh """
             cd k8s/helm/
-            helm -n dev upgrade --install ${env.HELM_REPO}${env.HELM_NAME} ${env.HELM_NAME} --wait
+            helm -n dev upgrade --install ${env.HELM_REPO}${env.HELM_NAME} ${env.HELM_NAME} ${HELM PARAMETERS}--wait
           """
         }
       }

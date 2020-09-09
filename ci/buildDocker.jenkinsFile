@@ -38,6 +38,12 @@ spec:
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
   }
+
+  def getFullImage(){
+    return ${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}
+
+  }
+
   stages {
     stage('Rebuild Application Container') {
       steps {
@@ -46,9 +52,16 @@ spec:
             echo "Docker repo ${env.DOCKER_REPO}"
             cd docker/${env.APPLICATION}
             echo "Starting Docker Build"
-            docker build ./ -t "${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
-            docker push "${env.DOCKER_REPO}/${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
+            docker build ./ -t "${env.DOCKER_REPO}/${getFullImage()}"
+            docker push "${env.DOCKER_REPO}/${getFullImage()}"
           """
+        }
+      }
+    }
+    stage('Return ContainerName') {
+      steps {
+        scripts {
+          echo "${getFullImage()}"
         }
       }
     }

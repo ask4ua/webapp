@@ -1,0 +1,49 @@
+pipeline {
+  agent {
+    kubernetes {
+      label 'build-service-pod'
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+labels:
+  scope: jenkins
+spec:
+  # Use service account that can deploy to all namespaces
+  serviceAccountName: jenkins-webapp
+  containers:
+  - name: kubectl
+    image: alpine/kubectl
+    command: ["cat"]
+    tty: true
+"""
+}
+   }
+  stages {
+    stage('Set Image Version') {
+      steps {
+        scripts {
+          env.IMAGES.each { image ->
+            imageNoTag=image.split(":")[0]
+            sh("""find k8s/webapp -type f -name "*.y*ml" -exece sed -e -i "s/${imageNoTag}:.*/${image}/g" {} \; """)
+          }
+        }
+      }
+    }
+    stage('Deploy Webapp') {
+      steps {
+        container('kubectl') {
+          sh """
+            cd k8s/webapp
+            kubectl -n ${NAMESPACE} apply -f secrets/*.yaml
+            kubectl -n ${NAMESPACE} apply -f configmaps/*.yaml
+            kubectl -n ${NAMESPACE} apply -f ingress/*.yaml
+            kubectl -n ${NAMESPACE} apply -f services/*.yaml
+            kubectl -n ${NAMESPACE} apply -f deployments/*.yaml
+          """
+        }
+      }
+    }
+  }
+}

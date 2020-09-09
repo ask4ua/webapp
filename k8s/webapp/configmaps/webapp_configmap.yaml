@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  DBHOST: "db"
+metadata:
+  name: webapp-configmap
+  

@@ -1,0 +1,44 @@
+pipeline {
+  agent none
+
+  def IMAGETAGS=''
+
+  parameters {
+    string(name: 'COMPONENTS',
+        defaultValue: 'webapp,db',
+        description: 'Application Components')
+    string(name: 'DOCKER_REPO',
+        defaultValue: 'docker.ask4ua.com',
+        description: 'Docker Repo')
+    string(name: 'DOCKER_TAG_PREFIX',
+        defaultValue: '1.0.0',
+        description: 'Docker Tag Prefix')
+    string(name: 'APPLICATION',
+        defaultValue: 'webapp',
+        description: 'Application')
+  }
+  stages {
+    stage('Rebuild Application Container') {
+      steps {
+        COMPONENTS.each{ component ->
+          if(IMAGETAGS){
+            IMAGETAGS+=","
+          }
+          IMAGETAGS+=build job: '../buildDocker', parameters: [
+              [$class: 'StringParameterValue', name: 'APPLICATION', value: "component"],
+              [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}"],
+              [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: '${DOCKER_REPO}']
+            ]
+          )
+        }
+      }
+    }
+    stage('K8s Install') {
+      steps {
+        build job: '../deployKubectl', parameters: [
+          [$class: 'StringParameterValue', name: 'IMAGETAGS', value: 'webapp']
+        ]
+      }
+    }
+  }
+}
