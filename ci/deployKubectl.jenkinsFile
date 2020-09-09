@@ -49,6 +49,7 @@ spec:
       steps {
         container('kubectl') {
           sh """
+            kubectl --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) get pods -A
             ${REPLACE_IMAGES_SCRIPTS}
             kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
             kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
