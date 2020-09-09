@@ -1,3 +1,5 @@
+REPLACE_IMAGES_SCRIPTS=""
+
 pipeline {
   agent {
     kubernetes {
@@ -33,11 +35,21 @@ spec:
         description: 'Deployment Namespace')
   }
   stages {
+    stage('Generate Image REplacement scripts') {
+      steps {
+        script {
+          IMAGETAGS.split().each { image ->
+            imageNoTag=image.split(":")[0]
+            REPLACE_IMAGES_SCRIPTS+="""find k8s/${APPLICATION}/ -type f -name '*.y*ml' -exec sed -e -i "s/${imageNoTag}:.*/${image}/g" {} \; """
+          }
+        }
+      }
+    }
     stage('Deploy Application') {
       steps {
         container('kubectl') {
           sh """
-            for image in $IMAGETAGS; do imageNoTag=$(echo $image | sed -F: '{print $1}'); find k8s/${APPLICATION}/ -type f -name "*.y*ml" -exec sed -e -i "s/${imageNoTag}:.*/${image}/g" {} \;
+            ${REPLACE_IMAGES_SCRIPTS}
             kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
             kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
             kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingress/*.yaml;
