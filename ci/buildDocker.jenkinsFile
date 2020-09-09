@@ -59,7 +59,7 @@ spec:
     }
     stage('Return ContainerName') {
       steps {
-        scripts {
+        script {
           echo "${getFullImage()}"
         }
       }
