@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Config
+clusters:
+- name: "hard"
+  cluster:
+    server: "https://kubernetes.default.svc"
+    insecure-skip-tls-verify: true 
+
+users:
+- name: "hard"
+  user:
+    token: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+contexts:
+- name: "hard"
+  context:
+    user: "hard"
+    cluster: "hard"
+
+current-context: "hard"
