@@ -39,7 +39,7 @@ spec:
         defaultValue: '0.0.0',
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'COMPONENTS',
-        defaultValue: 'webapp',
+        defaultValue: 'webapp db',
         description: 'Jenkins secret ID for ARM Registry Credentials')
   }
 
@@ -66,6 +66,9 @@ spec:
           imageTags=""
           COMPONENTS.split().each {
             imageTags="${getFullImage(${component})}" + " "
+          }
+          if(imageTags){
+            imageTags=imageTags[0..<-1]
           }
           echo "${imageTags}"
         }
