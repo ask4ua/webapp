@@ -1,7 +1,7 @@
 pipeline {
   agent none
 
-  def IMAGETAGS=''
+  IMAGETAGS=''
 
   parameters {
     string(name: 'COMPONENTS',
