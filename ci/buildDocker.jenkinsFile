@@ -41,6 +41,9 @@ spec:
     string(name: 'COMPONENTS',
         defaultValue: 'webapp db',
         description: 'Jenkins secret ID for ARM Registry Credentials')
+    string(name: 'IMAGETAGS',
+        defaultValue: '',
+        description: 'To override ImageTags results')
   }
 
   stages {
@@ -62,18 +65,20 @@ spec:
     stage('Return ContainerName') {
       steps {
         script {
-          imageTags=""
-          COMPONENTS.split().each { component ->
-            imageTags+=getFullImage(component) + " "
+          if(!IMAGETAGS){
+            COMPONENTS.split().each { component ->
+              IMAGETAGS+=getFullImage(component) + " "
+            }
+            if(IMAGETAGS){
+              IMAGETAGS=IMAGETAGS[0..<-1]
+            }
+            echo "${IMAGETAGS}"
           }
-          if(imageTags){
-            imageTags=imageTags[0..<-1]
-          }
-          echo "${imageTags}"
+          
         }
       }
     }
   }
 }
 
-return "${imageTags}"
+return "${IMAGETAGS}"

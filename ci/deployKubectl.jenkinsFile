@@ -44,7 +44,7 @@ spec:
             echo ${IMAGETAGS} > IMAGETAGS
           """
           sh '''
-            cd $(cat APPLICATION)
+            cd k8s/$(cat APPLICATION)
             for image in $(cat IMAGETAGS)
             do
               imageNoTag=$(echo image | awk -F: '{print $1}')
