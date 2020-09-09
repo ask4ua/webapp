@@ -47,7 +47,7 @@ spec:
             for image in $(cat IMAGETAGS)
             do
               imageNoTag=$(echo $image | awk -F: '{print $1}')
-              find k8s/$(cat APPLICATION) -type f -name '*.y*ml' -exec sed -i -e "s|${imageNoTag}:.*|${image}|g" {} +
+              find k8s/$(cat APPLICATION) -type f -name '*.y*ml' -exec sed -i -e \"s|${imageNoTag}:.*|${image}|g\" {} +
             done
           '''
           sh """
