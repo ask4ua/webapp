@@ -21,7 +21,8 @@ pipeline {
     stage('Rebuild Application Container') {
       steps {
         scripts {
-          COMPONENTS.split().each{ component ->
+
+          COMPONENTS.split().each { component ->
             if(IMAGETAGS){
               IMAGETAGS+=" "
             }
@@ -31,6 +32,7 @@ pipeline {
                 [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: '${DOCKER_REPO}']
               ]
           }
+
         }
       }
     }
