@@ -20,8 +20,7 @@ pipeline {
   stages {
     stage('Rebuild Application Container') {
       steps {
-        scripts {
-
+        script {
           COMPONENTS.split().each { component ->
             if(IMAGETAGS){
               IMAGETAGS+=" "
