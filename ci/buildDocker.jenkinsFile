@@ -1,5 +1,5 @@
   def getFullImage(){
-    return "${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
+    return "${env.APPLICATION}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
   }
 
 pipeline {
@@ -35,7 +35,7 @@ spec:
     string(name: 'DOCKER_REPO',
         defaultValue: 'docker.ask4ua.com',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-    string(name: 'DOCKER_TAG',
+    string(name: 'DOCKER_TAG_PREFIX',
         defaultValue: '0.0.0',
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'APPLICATION',
