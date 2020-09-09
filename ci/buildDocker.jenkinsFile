@@ -71,6 +71,7 @@ spec:
           }
           echo "${imageTags}"
         }
+        containerLog "jnlp"
       }
     }
   }
