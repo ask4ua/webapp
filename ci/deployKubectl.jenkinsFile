@@ -1,5 +1,5 @@
 def REPLACE_IMAGES_SCRIPTS=""
-def KUBER_PARAMS='-s https://kubernetes.default.svc --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)'
+def KUBER_PARAMS='-s https://kubernetes.default.svc --token /var/run/secrets/kubernetes.io/serviceaccount/token'
 
 pipeline {
   agent {
@@ -40,21 +40,20 @@ spec:
       steps {
         container('kubectl') {
           sh """
-            echo ${APPLICATION} > APPLICATION
-            echo ${IMAGETAGS} > IMAGETAGS
+            echo "${APPLICATION}" > APPLICATION
+            echo "${IMAGETAGS}" > IMAGETAGS
           """
           sh '''
-            cd k8s/$(cat APPLICATION)
             for image in $(cat IMAGETAGS)
             do
               imageNoTag=$(echo image | awk -F: '{print $1}')
-              find ./ -type f -name '*.y*ml' -exec sed -i -e "s/${imageNoTag}:.*/${image}/g" {} +
+              find ./$(cat APPLICATION) -type f -name '*.y*ml' -exec sed -i -e "s/${imageNoTag}:.*/${image}/g" {} +
             done
           '''
           sh """
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
-            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingress/*.yaml;
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingresses/*.yaml;
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/services/*.yaml;
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/deployments/*.yaml;
           """
