@@ -16,7 +16,7 @@ spec:
   serviceAccountName: jenkins-webapp
   containers:
   - name: kubectl
-    image: alpine/kubectl
+    image: bitnami/kubectl
     command: ["cat"]
     tty: true
 """
