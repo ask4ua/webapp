@@ -16,6 +16,9 @@ pipeline {
     string(name: 'APPLICATION',
         defaultValue: 'webapp',
         description: 'Application')
+    string(name: 'NAMESPACE',
+        defaultValue: 'dev',
+        description: 'Namespace')
   }
   stages {
     stage('Rebuild Application Containers') {

@@ -20,35 +20,29 @@ spec:
 """
 }
    }
+
+  parameters {
+    string(name: 'APPLICATION',
+        defaultValue: 'webapp',
+        description: 'Application')
+    string(name: 'IMAGETAGS',
+        defaultValue: 'webapp db',
+        description: 'space-separated IMAGES And Their Tags')
+    string(name: 'NAMESPACE',
+        defaultValue: 'dev',
+        description: 'Deployment Namespace')
+  }
   stages {
-    stage('Set Image Version') {
-      steps {
-        script {
-          env.IMAGETAGS.split().each { image ->
-            imageNoTag=image.split(":")[0]
-            echo "Setting image ${imageNoTag}:* to ${image}."
-            sh("""find k8s/webapp -type f -name "*.y*ml" -exece sed -e -i "s/${imageNoTag}:.*/${image}/g" {} \; """)
-          }
-        }
-      }
-    }
-    stage('Set Secrets') {
-      steps {
-        script {
-          echo "Setting Secrets"
-        }
-      }
-    }
-    stage('Deploy Webapp') {
+    stage('Deploy Application') {
       steps {
         container('kubectl') {
           sh """
-            cd k8s/webapp
-            kubectl -n ${NAMESPACE} apply -f secrets/*.yaml
-            kubectl -n ${NAMESPACE} apply -f configmaps/*.yaml
-            kubectl -n ${NAMESPACE} apply -f ingress/*.yaml
-            kubectl -n ${NAMESPACE} apply -f services/*.yaml
-            kubectl -n ${NAMESPACE} apply -f deployments/*.yaml
+            for image in $IMAGETAGS; do imageNoTag=$(echo $image | sed -F: '{print $1}'); find k8s/${APPLICATION}/ -type f -name "*.y*ml" -exec sed -e -i "s/${imageNoTag}:.*/${image}/g" {} \;
+            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
+            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
+            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingress/*.yaml;
+            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/services/*.yaml;
+            kubectl -n ${NAMESPACE} apply -f k8s/${APPLICATION}/deployments/*.yaml;
           """
         }
       }
