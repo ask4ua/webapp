@@ -46,14 +46,16 @@ spec:
   stages {
     stage('Rebuild Application Container') {
       steps {
-        COMPONENTS.split().each { component ->
-          container('docker') {
-            sh """
-              cd docker/${component}
-              echo "Starting Docker Build for ${component}"
-              docker build ./ -t "${getFullImage(${component})}"
-              docker push "${getFullImage(${component})}"
-            """
+        script {
+          COMPONENTS.split().each { component ->
+            container('docker') {
+              sh """
+                cd docker/${component}
+                echo "Starting Docker Build for ${component}"
+                docker build ./ -t "${getFullImage(${component})}"
+                docker push "${getFullImage(${component})}"
+              """
+            }
           }
         }
       }
