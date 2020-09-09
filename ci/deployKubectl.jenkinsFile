@@ -24,7 +24,7 @@ spec:
     stage('Set Image Version') {
       steps {
         scripts {
-          env.IMAGETAGS.each { image ->
+          env.IMAGETAGS.split().each { image ->
             imageNoTag=image.split(":")[0]
             echo "Setting image ${imageNoTag}:* to ${image}."
             sh("""find k8s/webapp -type f -name "*.y*ml" -exece sed -e -i "s/${imageNoTag}:.*/${image}/g" {} \; """)
