@@ -50,9 +50,9 @@ spec:
           COMPONENTS.split().each { component ->
             container('docker') {
               sh """
-                echo "Starting Docker Build for ${component}"
-                docker build ./ -t "${getFullImage(component)}"
-                docker push "${getFullImage(component)}"
+                  echo "Starting Docker Build for ${component}"
+                  docker build ./docker/${component}/ -t "${getFullImage(${component})}"
+                  docker push "${getFullImage(${component})}"
               """
             }
           }
