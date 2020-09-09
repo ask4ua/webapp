@@ -20,15 +20,17 @@ pipeline {
   stages {
     stage('Rebuild Application Container') {
       steps {
-        COMPONENTS.split().each{ component ->
-          if(IMAGETAGS){
-            IMAGETAGS+=" "
+        scripts {
+          COMPONENTS.split().each{ component ->
+            if(IMAGETAGS){
+              IMAGETAGS+=" "
+            }
+            IMAGETAGS+=build job: '../buildDocker', parameters: [
+                [$class: 'StringParameterValue', name: 'APPLICATION', value: "component"],
+                [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}"],
+                [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: '${DOCKER_REPO}']
+              ]
           }
-          IMAGETAGS+=build job: '../buildDocker', parameters: [
-              [$class: 'StringParameterValue', name: 'APPLICATION', value: "component"],
-              [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}"],
-              [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: '${DOCKER_REPO}']
-            ]
         }
       }
     }
