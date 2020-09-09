@@ -54,10 +54,10 @@ pipeline {
           sh """echo -n "" > IMAGETAGS
           for image in $IMAGETAGS; 
           do 
-            echo $image >> IMAGETAGS
+            echo $image >> ${APPLICATION}__IMAGETAGS.txt
           done
           """
-          archieveArtifacts IMAGETAGS
+          archieveArtifacts ${APPLICATION}_IMAGETAGS.txt
         }
       }
     }
