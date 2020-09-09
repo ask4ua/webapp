@@ -58,7 +58,7 @@ spec:
             for image in $(cat IMAGETAGS)
             do
               imageNoTag=$(echo image | awk -F: '{print $1}')
-              find ./ -type f -name '*.y*ml' -exec sed -e -i s/${imageNoTag}:.*/${image}/g" {} \;
+              find ./ -type f -name '*.y*ml' -exec sed -e -i s/${imageNoTag}:.*/${image}/g" {} \ ;
             done
           '''
           sh """
