@@ -35,7 +35,7 @@ pipeline {
     stage('K8s Install') {
       steps {
         build job: '../deployKubectl', parameters: [
-          [$class: 'StringParameterValue', name: IMAGETAGS', value: "${IMAGETAGS}"]
+          [$class: 'StringParameterValue', name: 'IMAGETAGS', value: "${IMAGETAGS}"]
         ]
       }
     }
