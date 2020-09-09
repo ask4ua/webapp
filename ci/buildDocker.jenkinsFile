@@ -1,5 +1,5 @@
-  def getFullImage(){
-    return "${env.APPLICATION}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
+  def getFullImage(component){
+    return "${env.DOCKER_REPO}/${component}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
   }
 
 pipeline {
@@ -38,7 +38,7 @@ spec:
     string(name: 'DOCKER_TAG_PREFIX',
         defaultValue: '0.0.0',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-    string(name: 'APPLICATION',
+    string(name: 'COMPONENTS',
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
   }
@@ -46,21 +46,26 @@ spec:
   stages {
     stage('Rebuild Application Container') {
       steps {
-        container('docker') {
-          sh """
-            echo "Docker repo ${env.DOCKER_REPO}"
-            cd docker/${env.APPLICATION}
-            echo "Starting Docker Build"
-            docker build ./ -t "${env.DOCKER_REPO}/${getFullImage()}"
-            docker push "${env.DOCKER_REPO}/${getFullImage()}"
-          """
+        COMPONENTS.split().each { component ->
+          container('docker') {
+            sh """
+              cd docker/${component}
+              echo "Starting Docker Build for ${component}"
+              docker build ./ -t "${getFullImage(${component})}"
+              docker push "${getFullImage(${component})}"
+            """
+          }
         }
       }
     }
     stage('Return ContainerName') {
       steps {
         script {
-          echo "${getFullImage()}"
+          imageTags=""
+          COMPONENTS.split().each {
+            imageTags="${getFullImage(${component})}" + " "
+          }
+          echo "${imageTags}"
         }
       }
     }
