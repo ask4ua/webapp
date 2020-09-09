@@ -69,7 +69,7 @@ spec:
           if(imageTags){
             imageTags=imageTags[0..<-1]
           }
-          sh(returnStdout=true,"""echo "${imageTags}" """)
+          echo "${imageTags}"
         }
       }
     }
