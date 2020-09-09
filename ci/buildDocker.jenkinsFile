@@ -2,6 +2,8 @@
     return "${env.DOCKER_REPO}/${component}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
   }
 
+  def IMAGETAGS=''
+
 pipeline {
   agent {
     kubernetes {
