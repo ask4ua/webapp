@@ -29,14 +29,13 @@ pipeline {
               [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}"],
               [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: '${DOCKER_REPO}']
             ]
-          )
         }
       }
     }
     stage('K8s Install') {
       steps {
         build job: '../deployKubectl', parameters: [
-          [$class: 'StringParameterValue', name: 'IMAGETAGS', value: 'webapp']
+          [$class: 'StringParameterValue', name: IMAGETAGS', value: "${IMAGETAGS}"]
         ]
       }
     }

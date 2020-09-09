@@ -24,10 +24,18 @@ spec:
     stage('Set Image Version') {
       steps {
         scripts {
-          env.IMAGES.each { image ->
+          env.IMAGETAGS.each { image ->
             imageNoTag=image.split(":")[0]
+            echo "Setting image ${imageNoTag}:* to ${image}."
             sh("""find k8s/webapp -type f -name "*.y*ml" -exece sed -e -i "s/${imageNoTag}:.*/${image}/g" {} \; """)
           }
+        }
+      }
+    }
+    stage('Set Secrets') {
+      steps {
+        scripts {
+          echo "Setting Secrets"
         }
       }
     }
