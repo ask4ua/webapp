@@ -23,7 +23,7 @@ spec:
   stages {
     stage('Set Image Version') {
       steps {
-        scripts {
+        script {
           env.IMAGETAGS.split().each { image ->
             imageNoTag=image.split(":")[0]
             echo "Setting image ${imageNoTag}:* to ${image}."
@@ -34,7 +34,7 @@ spec:
     }
     stage('Set Secrets') {
       steps {
-        scripts {
+        script {
           echo "Setting Secrets"
         }
       }

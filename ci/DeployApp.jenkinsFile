@@ -32,7 +32,6 @@ pipeline {
                 [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: '${DOCKER_REPO}']
               ]
           }
-
         }
       }
     }
@@ -41,6 +40,26 @@ pipeline {
         build job: '../deployKubectl', parameters: [
           [$class: 'StringParameterValue', name: 'IMAGETAGS', value: "${IMAGETAGS}"]
         ]
+      }
+    }
+    stage('Testing') {
+      steps {
+        script{
+          echo "Some Testing"
+        }
+      }
+    }
+    stage('Fix Versions'){
+      steps {
+        script {
+          sh """echo -n "" > IMAGETAGS
+          for image in $IMAGETAGS; 
+          do 
+            echo $image >> IMAGETAGS
+          done
+          """
+          archieveArtifacts IMAGETAGS
+        }
       }
     }
   }
