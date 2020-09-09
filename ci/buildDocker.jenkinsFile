@@ -1,3 +1,7 @@
+  def getFullImage(){
+    return "${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}"
+  }
+
 pipeline {
   agent {
     kubernetes {
@@ -37,11 +41,6 @@ spec:
     string(name: 'APPLICATION',
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-  }
-
-  def getFullImage(){
-    return ${env.APPLICATION}:${env.DOCKER_TAG}-${env.BUILD_NUMBER}
-
   }
 
   stages {
