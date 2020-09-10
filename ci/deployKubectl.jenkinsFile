@@ -1,5 +1,5 @@
 def REPLACE_IMAGES_SCRIPTS=""
-def KUBER_PARAMS='-s https://kubernetes.default.svc --token-auth-file=/var/run/secrets/kubernetes.io/serviceaccount/token'
+def KUBER_PARAMS='-s https://kubernetes.default.svc --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)'
 
 pipeline {
   agent {
