@@ -53,13 +53,8 @@ pipeline {
     stage('Fix Versions'){
       steps {
         script {
-          sh """echo -n "" > IMAGETAGS
-          for image in $IMAGETAGS; 
-          do 
-            echo $image >> ${APPLICATION}_IMAGETAGS.txt
-          done
-          """
-          archieveArtifacts ${APPLICATION}_IMAGETAGS.txt
+          sh """echo "${IMAGETAGS}" > ${APPLICATION}_IMAGETAGS.txt"""
+          archieveArtifacts "${APPLICATION}_IMAGETAGS.txt"
         }
       }
     }
