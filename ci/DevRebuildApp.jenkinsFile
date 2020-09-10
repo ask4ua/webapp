@@ -1,7 +1,9 @@
 def IMAGETAGS=""
 
 pipeline {
-  agent none
+  agent {
+    label 'master'
+  }
 
   parameters {
     string(name: 'COMPONENTS',
