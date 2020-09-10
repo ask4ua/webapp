@@ -51,9 +51,7 @@ pipeline {
       }
     }
     stage('Fix Versions'){
-      agent {
-        label 'master'
-      }
+      agent any
       steps {
         script {
           sh """echo "${IMAGETAGS}" > ${APPLICATION}_IMAGETAGS.txt"""
