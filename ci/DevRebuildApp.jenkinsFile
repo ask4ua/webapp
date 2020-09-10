@@ -1,9 +1,7 @@
 def IMAGETAGS=""
 
 pipeline {
-  agent {
-    label 'master'
-  }
+  agent none
 
   parameters {
     string(name: 'COMPONENTS',
@@ -53,6 +51,9 @@ pipeline {
       }
     }
     stage('Fix Versions'){
+      agent {
+        label 'master'
+      }
       steps {
         script {
           sh """echo "${IMAGETAGS}" > ${APPLICATION}_IMAGETAGS.txt"""
