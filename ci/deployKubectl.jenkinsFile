@@ -51,11 +51,11 @@ spec:
             done
           '''
           sh """
-            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
-            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
-            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingresses/*.yaml;
-            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/services/*.yaml;
-            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/deployments/*.yaml;
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingresses/
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/services/
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/deployments/
           """
         }
       }
