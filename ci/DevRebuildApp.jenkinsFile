@@ -29,17 +29,15 @@ pipeline {
               [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${env.DOCKER_TAG_PREFIX}"],
               [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${env.DOCKER_REPO}"]
             ]
-          IMAGETAGS="$buildDockerJob.buildVariables.IMAGETAGS" as String
+          env.IMAGETAGS="$buildDockerJob.buildVariables.IMAGETAGS" as String
           //IMAGETAGS="docker.ask4ua.com/webapp:1.0.0:50 docker.ask4ua.com/db:1.0.0:50"
-          
-          echo "Retrieved next IMAGETAGS: ${IMAGETAGS}"
         }
       }
     }
     stage('K8s Install') {
       steps {
         build job: '../deployKubectl', parameters: [
-          [$class: 'StringParameterValue', name: 'IMAGETAGS', value: "${IMAGETAGS}"]
+          [$class: 'StringParameterValue', name: 'IMAGETAGS', value: "${env.IMAGETAGS}"]
         ]
       }
     }
@@ -54,7 +52,7 @@ pipeline {
       agent any
       steps {
         script {
-          sh """echo "${IMAGETAGS}" > ${APPLICATION}_IMAGETAGS.txt"""
+          sh """echo "${env.IMAGETAGS}" > ${APPLICATION}_IMAGETAGS.txt"""
           archieveArtifacts "${APPLICATION}_IMAGETAGS.txt"
         }
       }
