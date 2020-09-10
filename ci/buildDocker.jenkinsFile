@@ -72,7 +72,7 @@ spec:
               IMAGETAGS+=getFullImage(component) + " "
             }
             if(IMAGETAGS){
-              IMAGETAGS=IMAGETAGS[0..<-1]
+              env.IMAGETAGS=IMAGETAGS[0..<-1]
             }
             echo "${IMAGETAGS}"
           }
