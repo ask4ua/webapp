@@ -14,7 +14,7 @@ labels:
   scope: jenkins
 spec:
   # Use service account that can deploy to all namespaces
-  serviceAccountName: jenkins-webapp
+  serviceAccountName: jenkins-helm-dev
   containers:
   - name: kubectl
     image: docker.ask4ua.com/kubectl
@@ -53,7 +53,7 @@ spec:
           sh """
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/secrets/*.yaml;
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/configmaps/*.yaml;
-
+            kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingresses/*.yaml;
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/services/*.yaml;
             kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/deployments/*.yaml;
           """
@@ -62,5 +62,3 @@ spec:
     }
   }
 }
-
-// kubectl ${KUBER_PARAMS} -n ${NAMESPACE} apply -f k8s/${APPLICATION}/ingresses/*.yaml;
