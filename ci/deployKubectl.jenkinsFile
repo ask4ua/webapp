@@ -17,7 +17,7 @@ spec:
   serviceAccountName: jenkins-helm-dev
   containers:
   - name: kubectl
-    image: docker.ask4ua.com/kubectl
+    image: docker.ask4ua.com/kube-tool
     command: ["cat"]
     tty: true
 """
