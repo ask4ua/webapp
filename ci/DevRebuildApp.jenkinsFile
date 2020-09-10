@@ -48,14 +48,14 @@ pipeline {
         }
       }
     }
-    stage('Fix Versions'){
-      agent any
-      steps {
-        script {
-          sh """echo "${env.IMAGETAGS}" > ${APPLICATION}_IMAGETAGS.txt"""
-          archieveArtifacts "${APPLICATION}_IMAGETAGS.txt"
-        }
-      }
-    }
+    // stage('Fix Versions'){
+    //   agent any
+    //   steps {
+    //     script {
+    //       sh """echo "${env.IMAGETAGS}" > ${APPLICATION}_IMAGETAGS.txt"""
+    //       archieveArtifacts "${APPLICATION}_IMAGETAGS.txt"
+    //     }
+    //   }
+    // }
   }
 }
