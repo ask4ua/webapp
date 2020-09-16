@@ -5,7 +5,7 @@
 replicaCount: 3
 
 image:
-  repository: docker.ask4ua.com/db
+  repository: docker.ask4ua.com/web
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
