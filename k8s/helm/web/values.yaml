@@ -23,7 +23,7 @@ ingress:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/use-regex: "true"
   hosts:
-    - host: pro.camp
+    - host: helm.ask4ua.com
       #namespace is added in the beginning
       paths: ["","webapp"]
 
