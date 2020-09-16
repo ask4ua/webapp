@@ -3,3 +3,11 @@
 # Declare variables to be passed into your templates.
 
 
+global:
+  db:
+    host: ""
+    user: ""
+    pass: ""
+    db: ""
+
+
