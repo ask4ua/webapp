@@ -33,6 +33,9 @@ spec:
     string(name: 'HELM_PARAMETERS',
         defaultValue: '',
         description: 'Additional helm parameters')
+    string(name: 'NAMESPACE',
+        defaultValue: 'dev',
+        description: 'Namespace')
   }
 
   stages {
@@ -41,7 +44,7 @@ spec:
         container('helm-cli') {
           sh """
             cd k8s/helm/
-            helm -n dev upgrade --install ${env.HELM_REPO}${env.HELM_NAME} ${env.HELM_NAME} ${HELM PARAMETERS}--wait
+            helm -n $NAMESPACE upgrade --install ${env.HELM_REPO}${env.HELM_NAME} ${env.HELM_NAME} ${HELM PARAMETERS}--wait
           """
         }
       }
