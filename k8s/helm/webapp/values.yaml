@@ -10,3 +10,9 @@ global:
     pass: ""
     db: ""
 
+web:
+  db:
+   supress_secret: true
+db:
+  db:
+   supress_secret: true

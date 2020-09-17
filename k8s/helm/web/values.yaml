@@ -10,6 +10,9 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+serviceAccount:
+  name: webapp-getpods
+
 service:
   type: ClusterIP
   port: 80
@@ -26,6 +29,8 @@ ingress:
 
 db: 
   name: webapp-db
+
+supress_secret: false
 
 envs:
 - name: DBUSER

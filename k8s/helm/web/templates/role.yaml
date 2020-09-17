@@ -1,0 +1,12 @@
+{{- if not (lookup "rbac.authorization.k8s.io/v1" "Role" .Release.Namespace "webapp-getpods") -}}
+apiVersion: rbac.authorization.k8s.io/v1
+# kubernetes versions before 1.8.0 should use rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: webapp-getpods
+rules:
+- apiGroups: [""]
+  resources:
+  - pods
+  verbs: ["get", "list","watch"]
+{{ end }}
