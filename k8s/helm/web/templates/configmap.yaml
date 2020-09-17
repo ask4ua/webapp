@@ -1,12 +1,8 @@
-{{- if not (lookup "v1" "secret" "{{ .Release.Namespace }}" "{{  .Release.Name }}-secret") -}}
+{{ if not $.Values.supress_secret }}
 apiVersion: v1
 kind: ConfigMap
 data:
-  {{- if .Values.global.db.name }}
-  DBHOST: "{{ .Values.global.db.host }}"
-  {{- else }}
   DBHOST: "{{ .Values.db.name }}"
-  {{- end }}
 metadata:
   name: {{ include "web.fullname" . }}-configmap
 {{ end }}

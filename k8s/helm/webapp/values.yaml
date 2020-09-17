@@ -9,12 +9,10 @@ web:
 db:
   supress_secret: true
 
-
-global:
-  db:
-    host: ""
-    user: ""
-    pass: ""
-    db: ""
+db:
+  host: ""
+  user: ""
+  pass: ""
+  db: ""
 
 
