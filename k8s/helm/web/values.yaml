@@ -27,6 +27,9 @@ ingress:
       #namespace is added in the beginning
       paths: ["","webapp"]
 
+db: 
+  name: webapp-db
+
 envs:
 - name: DBUSER
   key: DBUSER
