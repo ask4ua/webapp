@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 data:
-  {{- if .Value.global.db.name }}
+  {{- if .Values.global.db.name }}
   DBHOST: "{{ .Values.global.db.host }}"
   {{- else }}
   DBHOST: "{{ .Values.db.name }}"
