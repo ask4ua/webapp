@@ -25,7 +25,7 @@ ingress:
   hosts:
     - host: webapp.ask4ua.com
       #namespace is added 
-      paths: ["","${{ .Release.Namespace }}","${{ .Release.Namespace }}/"]
+      paths: ["","/"]
 
 db: 
   name: webapp-db
