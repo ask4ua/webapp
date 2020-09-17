@@ -10,6 +10,6 @@ roleRef:
   name: webapp-getpods
 subjects:
 - kind: ServiceAccount
-  name: {{.Values.serviceAccount.name}}
+  name: "{{.Values.serviceAccount.name}}"
   namespace: {{.Release.Namespace}}
 {{ end }}
