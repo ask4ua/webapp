@@ -36,6 +36,7 @@ Common labels
 */}}
 {{- define "web.labels" -}}
 helm.sh/chart: {{ include "web.chart" . }}
+app: webapp
 {{ include "web.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
