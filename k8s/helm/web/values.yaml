@@ -12,6 +12,7 @@ image:
 
 serviceAccount:
   create: true
+  name: webapp-getpods
 
 service:
   type: ClusterIP
