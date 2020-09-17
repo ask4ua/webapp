@@ -1,9 +1,0 @@
-dependencies:
-- name: web
-  repository: file://../web
-  version: 0.1.0
-- name: db
-  repository: file://../db
-  version: 0.1.0
-digest: sha256:eab3a142a58adedd9771302f4b0de7e80cbf54961277a69e343e443f73020d2f
-generated: "2020-09-16T20:21:08.911775+03:00"
