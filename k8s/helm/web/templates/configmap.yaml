@@ -1,4 +1,4 @@
-{{- if not (lookup "v1" "secret" "{{ .Release.Namespace }}" "{{  .Release.Name }}-secret") -}} }}
+{{- if not (lookup "v1" "secret" "{{ .Release.Namespace }}" "{{  .Release.Name }}-secret") -}}
 apiVersion: v1
 kind: ConfigMap
 data:
