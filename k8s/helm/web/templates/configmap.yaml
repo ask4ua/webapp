@@ -6,7 +6,7 @@ data:
   DBHOST: "{{ .Values.global.db.host }}"
   {{- else }}
   DBHOST: "{{ .Values.db.name }}"
-  {{ end }}
+  {{- end }}
 metadata:
   name: {{ include "web.fullname" . }}-configmap
 {{ end }}
