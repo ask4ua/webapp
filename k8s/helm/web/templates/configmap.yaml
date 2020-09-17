@@ -2,11 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 data:
-  {{- if .Values.global.db.host }}
-  DBHOST: {{ .Values.global.db.host }}
-  {{- else }}
   DBHOST: {{ .Release.Name }}-db
-  {{- end }}
 metadata:
   name: {{ .Release.Name }}-configmap
 {{ end }}
