@@ -26,6 +26,8 @@ dependencies:
 - name: web        # from search results above
   version: 0.1.0     # Also from the search results above
   repository: file://../web
+  #repository: https://jfrog.ask4ua.com/webapp/web
 - name: db        # from search results above
   version: 0.1.0     # Also from the search results above
   repository: file://../db
+  #repository: https://jfrog.ask4ua.com/webapp/db
