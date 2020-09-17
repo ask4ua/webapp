@@ -2,6 +2,13 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+web:
+  supress_secret: true
+  db:
+    name: ""
+db:
+  supress_secret: true
+
 
 global:
   db:
@@ -10,7 +17,4 @@ global:
     pass: ""
     db: ""
 
-web:
-  supress_secret: true
-db:
-  supress_secret: true
+
