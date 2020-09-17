@@ -5,7 +5,7 @@ data:
   {{- if .Value.global.db.name }}
   DBHOST: "{{ .Values.global.db.host }}"
   {{- else }}
-  DBHOST: "{{ .Values.db.name | default ".Release.Name"-db }}"
+  DBHOST: "{{ .Values.db.name }}"
   {{ end }}
 metadata:
   name: {{ include "web.fullname" . }}-configmap
