@@ -32,7 +32,7 @@ spec:
       http:
         paths:
           {{- range .paths }}
-          - path: {{ printf "/%s/%s/%s" $.Release.Namespace $.Release.Name . }}
+          - path: {{ printf "/%s/%s%s" $.Release.Namespace $.Release.Name . }}
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
