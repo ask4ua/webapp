@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 data:
-  {{ if .Values.db.name }}
-  DBHOST: "{{ .Values.db.name }}"
+  {{ if .Values.db.host }}
+  DBHOST: "{{ .Values.db.host }}"
   {{ else }}
   DBHOST: {{ .Release.Name }}-db
   {{ end }}
