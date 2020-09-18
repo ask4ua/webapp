@@ -15,6 +15,7 @@ spec:
       annotations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+        renew_config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
         {{- include "db.selectorLabels" . | nindent 8 }}
     spec:

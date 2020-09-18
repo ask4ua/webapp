@@ -44,7 +44,12 @@ spec:
         container('helm-cli') {
           sh """
             cd k8s/helm/
-            helm -n $NAMESPACE upgrade --install ${env.HELM_REPO}${env.HELM_NAME} ${env.HELM_NAME} ${HELM PARAMETERS} --wait || helm rollback ${env.HELM_NAME}
+            helm -n $NAMESPACE upgrade --install ${env.HELM_REPO}${env.HELM_NAME} ${env.HELM_NAME} ${HELM PARAMETERS} --wait
+            if [[ "?$" -ne 0 ]]; then
+              echo "helm roloout failed - rolling it back"
+              helm rollback ${env.HELM_NAME}
+              exit 1
+            fi
           """
         }
       }
