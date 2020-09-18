@@ -4,15 +4,7 @@
 
 web:
   supress_secret: true
-  db:
-    host: ""
 db:
   supress_secret: true
-
-db:
-  host: ""
-  user: ""
-  pass: ""
-  db: ""
 
 
