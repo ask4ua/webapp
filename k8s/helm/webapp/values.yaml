@@ -5,7 +5,7 @@
 web:
   supress_secret: true
   db:
-    name: ""
+    host: ""
 db:
   supress_secret: true
 
