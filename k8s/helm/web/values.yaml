@@ -28,7 +28,7 @@ ingress:
       paths: ["","/"]
 
 db: 
-  name: webapp-db
+  host: webapp-db
 
 supress_secret: false
 

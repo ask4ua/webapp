@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 data:
-  DBHOST: "{{ .Values.db.name }}"
+  DBHOST: "{{ .Values.db.host }}"
 metadata:
   name: {{ include "web.fullname" . }}-configmap
 {{ end }}
