@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  {{ if .Values.db.name }}
+  DBHOST: "{{ .Values.db.name }}"
+  {{ else }}
+  DBHOST: {{ .Release.Name }}-db
+  {{ end }}
+metadata:
+  name: {{ .Release.Name }}-configmap

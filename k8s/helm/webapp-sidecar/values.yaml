@@ -1,0 +1,12 @@
+web:
+  supress_secret: true
+  db:
+    name: ""
+db:
+  supress_secret: true
+
+db:
+  host: ""
+  user: ""
+  pass: ""
+  db: ""
