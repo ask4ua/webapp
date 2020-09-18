@@ -34,7 +34,7 @@ spec:
           {{- range .paths }}
           - path: {{ printf "/%s/%s%s" $.Release.Namespace $.Release.Name . }}
             backend:
-              serviceName: {{ $fullName }}
+              serviceName: {{ .Release.Name }}
               servicePort: {{ $svcPort }}
           {{- end }}
     {{- end }}

@@ -6,5 +6,3 @@ web:
   supress_secret: true
 db:
   supress_secret: true
-
-
