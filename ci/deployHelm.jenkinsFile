@@ -11,7 +11,7 @@ labels:
   scope: jenkins
 spec:
   # Use service account that can deploy to all namespaces
-  serviceAccountName: jenkins-helm-dev
+  serviceAccountName: jenkins-master2staging
   containers:
   - name: helm-cli
     image: alpine/helm
@@ -21,9 +21,9 @@ spec:
     }
   }
   parameters {
-    string(name: 'HELM_NAME',
+    string(name: 'HELM_CHART',
         defaultValue: '',
-        description: 'Helm deployment name')
+        description: 'Helm chart name')
     string(name: 'HELM_RELEASE_NAME',
         defaultValue: '',
         description: 'Helm release name')
@@ -34,7 +34,7 @@ spec:
         defaultValue: '',
         description: 'Additional helm parameters')
     string(name: 'NAMESPACE',
-        defaultValue: 'dev',
+        defaultValue: 'staging',
         description: 'Namespace')
   }
 
@@ -44,10 +44,10 @@ spec:
         container('helm-cli') {
           sh """
             cd k8s/helm/
-            helm -n $NAMESPACE upgrade --install ${env.HELM_REPO}${env.HELM_NAME} ${env.HELM_NAME} ${HELM PARAMETERS} --wait
+            helm -n ${NAMESPACE} upgrade --install ${env.HELM_REPO}${env.HELM_CHART} ${env.HELM_CHART} ${HELM PARAMETERS} --wait
             if [[ "?$" -ne 0 ]]; then
-              echo "helm roloout failed - rolling it back"
-              helm rollback ${env.HELM_NAME}
+              echo "helm rollout failed - rolling it back"
+              helm rollback ${env.HELM_CHART}
               exit 1
             fi
           """

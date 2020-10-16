@@ -5,7 +5,7 @@ pipeline {
     string(name: 'DOCKER_REPO',
         defaultValue: 'docker.ask4ua.com',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-    string(name: 'DOCKER_TAG',
+    string(name: 'DOCKER_TAG_PREFIX',
         defaultValue: '1.0.0',
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'APPLICATION',
@@ -13,7 +13,16 @@ pipeline {
         description: 'Jenkins secret ID for ARM Registry Credentials')
   }
   stages {
-    stage('Rebuild Application Container') {
+    stage('Rebuild Application Containers') {
+      steps {
+        build job: 'buildDocker', parameters: [
+          [$class: 'StringParameterValue', name: 'APPLICATION', value: 'webapp'],
+          [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
+          [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ]
+        ]
+      }
+    }
+    stage('Test Application Container') {
       steps {
         build job: 'buildDocker', parameters: [
           [$class: 'StringParameterValue', name: 'APPLICATION', value: 'webapp'],

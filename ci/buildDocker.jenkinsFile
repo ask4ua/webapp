@@ -31,21 +31,24 @@ spec:
       hostPath:
         path: /var/run/docker.sock
 """
-}
-   }
+    }
+  }
   parameters {
     string(name: 'DOCKER_REPO',
         defaultValue: 'docker.ask4ua.com',
-        description: 'Jenkins secret ID for ARM Registry Credentials')
+        description: 'docker repo')
+    string(name: 'DOCKER_REPO_SECRET',
+        defaultValue: '',
+        description: 'docker repo secret')
     string(name: 'DOCKER_TAG_PREFIX',
         defaultValue: '0.0.0',
-        description: 'Jenkins secret ID for ARM Registry Credentials')
+        description: 'Jenkins docker tag, if not propagated - used 0.0.0')
     string(name: 'COMPONENTS',
         defaultValue: 'webapp db',
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'IMAGETAGS',
         defaultValue: '',
-        description: 'To override ImageTags results')
+        description: 'For forcing ImageTags results')
   }
 
   stages {
