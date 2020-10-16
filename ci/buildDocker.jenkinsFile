@@ -1,5 +1,5 @@
 def getFullImage(component){
-  echo "constructing tag for ${component}, env.IMAGETAG: ${env.IMAGETAG} IMAGETAG ${IMAGETAG}"
+  echo "constructing tag for ${component}, env.IMAGETAG: \"${env.IMAGETAG}\" IMAGETAG \"${IMAGETAG}\""
   if (IMAGETAG.trim()){
     echo "Image tag forced to ${IMAGETAG} using it for tagging docker images!"
     return "${env.DOCKER_REPO}/${component}:${env.IMAGETAG}"
