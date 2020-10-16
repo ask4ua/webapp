@@ -89,10 +89,9 @@ spec:
             }
           }
           echo "${BUILT_IMAGETAGS}"
+          eturn "${BUILT_IMAGETAGS}"
         }
       }
     }
   }
 }
-
-return "${IMAGETAG}"
