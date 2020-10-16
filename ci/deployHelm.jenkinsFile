@@ -22,8 +22,8 @@ spec:
   }
   parameters {
     string(name: 'HELM_REPO',
-        defaultValue: './k8s/helm/',
-        description: 'Helm Repo anem ended with /')
+        defaultValue: './k8s/helm',
+        description: 'Helm Repo anem ended without ending /')
     string(name: 'HELM_CHART',
         defaultValue: '',
         description: 'Helm chart name')
@@ -43,7 +43,7 @@ spec:
       steps {
         container('helm-cli') {
           sh """
-            helm -n ${NAMESPACE} upgrade --install ${HELM_RELEASE_NAME} ${HELM_REPO} ${HELM_CHART} ${HELM_PARAMETERS} --wait
+            helm -n ${NAMESPACE} upgrade --install ${HELM_RELEASE_NAME} ${HELM_REPO}/${HELM_CHART} ${HELM_PARAMETERS} --wait
             if [[ "?\$" -ne 0 ]]; then
               echo "helm rollout failed - rolling it back"
               helm rollback ${HELM_RELEASE_NAME}
