@@ -10,6 +10,9 @@ pipeline {
     string(name: 'APPLICATION',
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
+    string(name: 'DOCKERFILE_PATH',
+        defaultValue: './docker/webapp',
+        description: 'For forcing path to folder with dockerfile')
     string(name: 'DOCKER_TAG_PREFIX',
         defaultValue: '0.0.1',
         description: 'Jenkins secret ID for ARM Registry Credentials')
@@ -36,9 +39,10 @@ pipeline {
             COMPONENT=APPLICATION
           }
           env.TAG_NAME = build(job: 'buildDocker', parameters: [
-              [$class: 'StringParameterValue', name: 'COMPONENTS', value: "${COMPONENT}"],
+              [$class: 'StringParameterValue', name: 'COMPONENTS', value: "${APPLICATION}"],
               [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
-              [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ]
+              [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ],
+              [$class: 'StringParameterValue', name: 'DOCKERFILE_PATH', value: "${DOCKERFILE_PATH}" ]
             ],
             returnStdout:true)
         }
