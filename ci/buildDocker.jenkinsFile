@@ -50,7 +50,7 @@ spec:
         defaultValue: '0.0.0',
         description: 'Jenkins docker tag, if not propagated - used 0.0.0')
     string(name: 'DOCKERFILE_PATH',
-        defaultValue: './docker/',
+        defaultValue: './docker/webapp',
         description: 'For forcing path to folder with dockerfile')
     string(name: 'COMPONENTS',
         defaultValue: 'webapp db',
