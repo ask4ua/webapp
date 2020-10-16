@@ -22,7 +22,7 @@ spec:
   }
   parameters {
     string(name: 'HELM_REPO',
-        defaultValue: 'k8s/helm',
+        defaultValue: './k8s/helm',
         description: 'Helm Repo anem ended with /')
     string(name: 'HELM_CHART',
         defaultValue: '',
