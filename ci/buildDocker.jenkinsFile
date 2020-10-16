@@ -1,14 +1,14 @@
-  def getFullImage(component){
-    echo "constructing tag for ${component}, env.IMAGETAG: ${env.IMAGETAG} IMAGETAG ${IMAGETAG}"
-    if (env.IMAGETAG.trim()){
-      echo "Image tag forced to ${IMAGETAG} using it for tagging docker images!"
-      return "${env.DOCKER_REPO}/${component}:${env.IMAGETAG}"
-    } else {
-      return "${env.DOCKER_REPO}/${component}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
-    }
+def getFullImage(component){
+  echo "constructing tag for ${component}, env.IMAGETAG: ${env.IMAGETAG} IMAGETAG ${IMAGETAG}"
+  if (env.IMAGETAG.trim()){
+    echo "Image tag forced to ${IMAGETAG} using it for tagging docker images!"
+    return "${env.DOCKER_REPO}/${component}:${env.IMAGETAG}"
+  } else {
+    return "${env.DOCKER_REPO}/${component}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
   }
+}
 
-  def BUILT_IMAGETAGS=''
+def BUILT_IMAGETAGS=''
 
 pipeline {
   agent {
@@ -71,7 +71,6 @@ spec:
                   docker build ${DOCKERFILE_PATH}/${component}/ -t "${getFullImage(component)}"
                   docker push "${getFullImage(component)}"
               """
-            }
             }
           }
         }
