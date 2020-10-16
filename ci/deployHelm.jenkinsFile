@@ -25,7 +25,7 @@ spec:
         defaultValue: './k8s/helm',
         description: 'Helm Repo anem ended without ending /')
     string(name: 'HELM_CHART',
-        defaultValue: '',
+        defaultValue: 'webapp',
         description: 'Helm chart name')
     string(name: 'HELM_RELEASE_NAME',
         defaultValue: 'test_release',
