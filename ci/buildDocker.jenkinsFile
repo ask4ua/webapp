@@ -1,6 +1,6 @@
 def getFullImage(component){
   echo "constructing tag for ${component}, env.IMAGETAG: ${env.IMAGETAG} IMAGETAG ${IMAGETAG}"
-  if (env.IMAGETAG.trim()){
+  if (IMAGETAG.trim()){
     echo "Image tag forced to ${IMAGETAG} using it for tagging docker images!"
     return "${env.DOCKER_REPO}/${component}:${env.IMAGETAG}"
   } else {
@@ -83,12 +83,12 @@ spec:
             COMPONENTS.split().each { component ->
               BUILT_IMAGETAGS+=getFullImage(component) + " "
             }
+            
             if(BUILT_IMAGETAGS){
               BUILT_IMAGETAGS=BUILT_IMAGETAGS[0..<-1]
             }
-            echo "${BUILT_IMAGETAGS}"
           }
-          
+          echo "${BUILT_IMAGETAGS}"
         }
       }
     }
