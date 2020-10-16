@@ -44,7 +44,7 @@ spec:
         container('helm-cli') {
           sh """
             if [[ "${HELM_REPO}" != *"http"*  ]]; then
-              helm dependency update ${HELM_REPO}/
+              helm dependency update ${HELM_REPO}/${HELM_CHART}/
             fi
             helm -n ${NAMESPACE} upgrade --install ${HELM_RELEASE_NAME} ${HELM_REPO}/${HELM_CHART} ${HELM_PARAMETERS} --wait
             if [[ "?\$" -ne 0 ]]; then
