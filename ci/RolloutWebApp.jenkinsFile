@@ -31,7 +31,7 @@ pipeline {
           build job 'buildDocker', parameters: [
             [$class: 'StringParameterValue', name: 'APPLICATION', value: "${APPLICATION}"],
             [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
-            [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ],
+            [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ]
           ]
         }
       }
