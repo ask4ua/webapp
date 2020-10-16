@@ -1,4 +1,4 @@
-TAG_NAME=""
+def TAG_NAME=""
 
 pipeline {
   agent none
@@ -27,11 +27,11 @@ pipeline {
   stages {
     stage('Rebuild Application Containers') {
       steps {
-        TAG_NAME = build job (returnStdout: true, 'buildDocker', parameters: [
+        TAG_NAME = build job 'buildDocker', parameters: [
           [$class: 'StringParameterValue', name: 'APPLICATION', value: "${APPLICATION}"],
           [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
           [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ],
-        ])
+        ]
       }
     }
     stage('Test Application Container') {
