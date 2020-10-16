@@ -1,12 +1,13 @@
   def getFullImage(component){
     if (IMAGETAG.trim()){
+      echo "Image tag forced to ${IMAGETAG} using it for tagging docker images!"
       return "${env.DOCKER_REPO}/${component}:${env.IMAGETAG}"
     } else {
       return "${env.DOCKER_REPO}/${component}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
     }
   }
 
-  def IMAGETAG=''
+  def BUILT_IMAGETAGS=''
 
 pipeline {
   agent {
@@ -74,14 +75,14 @@ spec:
     stage('Return ContainerName') {
       steps {
         script {
-          if(!IMAGETAG){
+          if(!BUILT_IMAGETAGS){
             COMPONENTS.split().each { component ->
-              IMAGETAG+=getFullImage(component) + " "
+              BUILT_IMAGETAGS+=getFullImage(component) + " "
             }
-            if(IMAGETAG){
-              env.IMAGETAG=IMAGETAG[0..<-1]
+            if(BUILT_IMAGETAGS){
+              BUILT_IMAGETAGS=BUILT_IMAGETAGS[0..<-1]
             }
-            echo "${IMAGETAG}"
+            echo "${BUILT_IMAGETAGS}"
           }
           
         }
