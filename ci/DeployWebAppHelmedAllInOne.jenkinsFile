@@ -1,3 +1,5 @@
+TAG_NAME=""
+
 pipeline {
   agent none
 
@@ -5,28 +7,36 @@ pipeline {
     string(name: 'DOCKER_REPO',
         defaultValue: 'docker.ask4ua.com',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-    string(name: 'DOCKER_TAG_PREFIX',
-        defaultValue: '1.0.0',
+    string(name: 'COMPONENTS',
+        defaultValue: 'docker.ask4ua.com',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-    string(name: 'APPLICATION',
+    string(name: 'DOCKER_TAG_PREFIX',
+        defaultValue: '0.0.1',
+        description: 'Jenkins secret ID for ARM Registry Credentials')
+    string(name: 'IMAGETAG',
+        defaultValue: '',
+        description: 'For forcing IMAGETAG results')
+    string(name: 'HELM_RELEASE_NAME',
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
+
   }
   stages {
     stage('Rebuild Application Containers') {
       steps {
-        build job: 'buildDocker', parameters: [
-          [$class: 'StringParameterValue', name: 'APPLICATION', value: 'webapp'],
-          [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
-          [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ]
+        TAG_NAME = build job: 'buildDocker', parameters: [
+          [$class: 'StringParameterValue', name: 'APPLICATION', value: "${APPLICATION}"],
+          [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
+          [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ],
         ]
       }
     }
     stage('Test Application Container') {
       steps {
-        build job: 'buildDocker', parameters: [
-          [$class: 'StringParameterValue', name: 'APPLICATION', value: 'webapp'],
-          [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com']
+        build job 'buildDocker', parameters: [
+          [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
+          [$class: 'StringParameterValue', name: 'APPLICATION', value: "${HELM_RELEASE_NAME}.toLowerCase()" ],
+          [$class: 'StringParameterValue', name: 'HELM_PARAMETERS', value: "--set image.tag=${TAG_NAME}" ]
         ]
       }
     }

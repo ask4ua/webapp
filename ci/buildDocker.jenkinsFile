@@ -51,7 +51,7 @@ spec:
         description: 'Jenkins docker tag, if not propagated - used 0.0.0')
     string(name: 'DOCKERFILE_PATH',
         defaultValue: './docker/',
-        description: 'For forcing path to dockerfile')
+        description: 'For forcing path to folder with dockerfile')
     string(name: 'COMPONENTS',
         defaultValue: 'webapp db',
         description: 'Jenkins secret ID for ARM Registry Credentials')
