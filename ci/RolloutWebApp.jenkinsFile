@@ -27,12 +27,14 @@ pipeline {
   stages {
     stage('Rebuild Application Containers') {
       steps {
-        TAG_NAME = build(job: 'buildDocker', parameters: [
-            [$class: 'StringParameterValue', name: 'APPLICATION', value: "${APPLICATION}"],
-            [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
-            [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ]
-          ],
-          returnStdout:true)
+        script {
+          env.TAG_NAME = build(job: 'buildDocker', parameters: [
+              [$class: 'StringParameterValue', name: 'APPLICATION', value: "${APPLICATION}"],
+              [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
+              [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ]
+            ],
+            returnStdout:true)
+        }
       }
     }
     stage('Test Application Container') {
