@@ -4,11 +4,11 @@ pipeline {
   agent none
 
   parameters {
-    string(name: 'DOCKER_REPO',
-        defaultValue: 'docker.ask4ua.com',
-        description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'APPLICATION',
         defaultValue: 'webapp',
+        description: 'Jenkins secret ID for ARM Registry Credentials')
+    string(name: 'DOCKER_REPO',
+        defaultValue: 'docker.ask4ua.com',
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'DOCKERFILE_PATH',
         defaultValue: './docker/webapp',
