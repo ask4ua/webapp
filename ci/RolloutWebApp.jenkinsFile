@@ -36,7 +36,7 @@ pipeline {
     }
     stage('Test Application Container') {
       steps {
-        build job 'buildDocker', parameters: [
+        build job: 'deployHelm', parameters: [
           [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
           [$class: 'StringParameterValue', name: 'APPLICATION', value: "${HELM_RELEASE_NAME}.toLowerCase()" ],
           [$class: 'StringParameterValue', name: 'HELM_PARAMETERS', value: "--set image.tag=${TAG_NAME}" ],
