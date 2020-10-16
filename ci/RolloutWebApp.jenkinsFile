@@ -27,8 +27,7 @@ pipeline {
   stages {
     stage('Rebuild Application Containers') {
       steps {
-        TAG_NAME = (
-          build job 'buildDocker', parameters: [
+        TAG_NAME = build(job 'buildDocker', parameters: [
             [$class: 'StringParameterValue', name: 'APPLICATION', value: "${APPLICATION}"],
             [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
             [$class: 'StringParameterValue', name: 'DOCKER_TAG_PREFIX', value: "${DOCKER_TAG_PREFIX}" ]
@@ -38,18 +37,18 @@ pipeline {
     }
     stage('Test Application Container') {
       steps {
-        build job: 'deployHelm', parameters: [
-          [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
-          [$class: 'StringParameterValue', name: 'APPLICATION', value: "${HELM_RELEASE_NAME}.toLowerCase()" ],
-          [$class: 'StringParameterValue', name: 'HELM_PARAMETERS', value: "--set image.tag=${TAG_NAME}" ],
-          [$class: 'StringParameterValue', name: 'NAMESPACE', value: "${NAMESPACE}" ]
-        ]
+          echo "Appliction testing is skipped for now"
       }
     }
     stage('Helm Install') {
       steps {
         build job: 'deployHelm', parameters: [
-          [$class: 'StringParameterValue', name: 'HELM_NAME', value: 'webapp']
+          [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
+          [$class: 'StringParameterValue', name: 'HELM_REPO', value: "${HELM_REPO}" ],
+          [$class: 'StringParameterValue', name: 'HELM_CHART', value: "${HELM_CHART}" ],
+          [$class: 'StringParameterValue', name: 'HELM_RELEASE_NAME', value: "${HELM_RELEASE_NAME}.toLowerCase()" ],
+          [$class: 'StringParameterValue', name: 'HELM_PARAMETERS', value: "--set image.tag=${TAG_NAME}" ],
+          [$class: 'StringParameterValue', name: 'NAMESPACE', value: "${NAMESPACE}" ]
         ]
       }
     }
