@@ -16,6 +16,9 @@ pipeline {
     string(name: 'IMAGETAG',
         defaultValue: '',
         description: 'For forcing IMAGETAG results')
+    string(name: 'NAMESPACE',
+        defaultValue: 'staging',
+        description: 'Namespace used for application deployment.')
     string(name: 'HELM_RELEASE_NAME',
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
@@ -36,7 +39,8 @@ pipeline {
         build job 'buildDocker', parameters: [
           [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
           [$class: 'StringParameterValue', name: 'APPLICATION', value: "${HELM_RELEASE_NAME}.toLowerCase()" ],
-          [$class: 'StringParameterValue', name: 'HELM_PARAMETERS', value: "--set image.tag=${TAG_NAME}" ]
+          [$class: 'StringParameterValue', name: 'HELM_PARAMETERS', value: "--set image.tag=${TAG_NAME}" ],
+          [$class: 'StringParameterValue', name: 'NAMESPACE', value: "${NAMESPACE}" ]
         ]
       }
     }
