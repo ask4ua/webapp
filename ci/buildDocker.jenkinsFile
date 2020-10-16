@@ -1,13 +1,17 @@
   def getFullImage(component){
-    return "${env.DOCKER_REPO}/${component}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
+    if (IMAGETAG.trim()){
+      return "${env.DOCKER_REPO}/${component}:${env.IMAGETAG}"
+    } else {
+      return "${env.DOCKER_REPO}/${component}:${env.DOCKER_TAG_PREFIX}-${env.BUILD_NUMBER}"
+    }
   }
 
-  def IMAGETAGS=''
+  def IMAGETAG=''
 
 pipeline {
   agent {
     kubernetes {
-      label 'build-service-pod'
+      label 'docker-build-pod'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -46,9 +50,9 @@ spec:
     string(name: 'COMPONENTS',
         defaultValue: 'webapp db',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-    string(name: 'IMAGETAGS',
+    string(name: 'IMAGETAG',
         defaultValue: '',
-        description: 'For forcing ImageTags results')
+        description: 'For forcing IMAGETAG results')
   }
 
   stages {
@@ -70,14 +74,14 @@ spec:
     stage('Return ContainerName') {
       steps {
         script {
-          if(!IMAGETAGS){
+          if(!IMAGETAG){
             COMPONENTS.split().each { component ->
-              IMAGETAGS+=getFullImage(component) + " "
+              IMAGETAG+=getFullImage(component) + " "
             }
-            if(IMAGETAGS){
-              env.IMAGETAGS=IMAGETAGS[0..<-1]
+            if(IMAGETAG){
+              env.IMAGETAG=IMAGETAG[0..<-1]
             }
-            echo "${IMAGETAGS}"
+            echo "${IMAGETAG}"
           }
           
         }
@@ -86,4 +90,4 @@ spec:
   }
 }
 
-return "${IMAGETAGS}"
+return "${IMAGETAG}"
