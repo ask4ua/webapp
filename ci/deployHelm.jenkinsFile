@@ -46,7 +46,7 @@ spec:
             helm -n ${NAMESPACE} upgrade --install ${env.HELM_RELEASE_NAME} ${env.HELM_REPO}/${env.HELM_CHART} ${HELM_PARAMETERS} --wait
             if [[ "?$" -ne 0 ]]; then
               echo "helm rollout failed - rolling it back"
-              helm rollback ${env.HELM_CHART}
+              helm rollback ${env.HELM_RELEASE_NAME}
               exit 1
             fi
           """
