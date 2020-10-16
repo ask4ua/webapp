@@ -15,19 +15,26 @@ pipeline {
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'IMAGETAG',
         defaultValue: '',
-        description: 'For forcing IMAGETAG results')
+        description: 'Empty by default - useful for forcing IMAGETAG results')
     string(name: 'NAMESPACE',
         defaultValue: 'staging',
         description: 'Namespace used for application deployment.')
     string(name: 'HELM_RELEASE_NAME',
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
+    string(name: 'HELM_CHART',
+        defaultValue: '',
+        description: 'Empty by default and in such case set to APPLICATION name. Useful for forcing helm chart name.')
+    
 
   }
   stages {
     stage('Rebuild Application Containers') {
       steps {
         script {
+          if (!COMPONENT) {
+            COMPONENT=APPLICATION
+          }
           env.TAG_NAME = build(job: 'buildDocker', parameters: [
               [$class: 'StringParameterValue', name: 'COMPONENTS', value: "${COMPONENT}"],
               [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
@@ -44,6 +51,12 @@ pipeline {
     }
     stage('Helm Install') {
       steps {
+        script {
+          if(!HELM_CHART) {
+            HELM_CHART=APPLICATION
+          }
+        }
+
         build job: 'deployHelm', parameters: [
           [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
           [$class: 'StringParameterValue', name: 'HELM_REPO', value: "${HELM_REPO}" ],
