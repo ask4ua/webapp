@@ -7,7 +7,7 @@ pipeline {
     string(name: 'DOCKER_REPO',
         defaultValue: 'docker.ask4ua.com',
         description: 'Jenkins secret ID for ARM Registry Credentials')
-    string(name: 'COMPONENT',
+    string(name: 'APPLICATION',
         defaultValue: 'webapp',
         description: 'Jenkins secret ID for ARM Registry Credentials')
     string(name: 'DOCKER_TAG_PREFIX',
