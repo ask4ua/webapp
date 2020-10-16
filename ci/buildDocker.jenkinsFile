@@ -1,5 +1,5 @@
   def getFullImage(component){
-    if (IMAGETAG.trim()){
+    if (IMAGETAGS.trim()){
       echo "Image tag forced to ${IMAGETAG} using it for tagging docker images!"
       return "${env.DOCKER_REPO}/${component}:${env.IMAGETAG}"
     } else {
@@ -48,6 +48,9 @@ spec:
     string(name: 'DOCKER_TAG_PREFIX',
         defaultValue: '0.0.0',
         description: 'Jenkins docker tag, if not propagated - used 0.0.0')
+    string(name: 'DOCKERFILE_PATH',
+        defaultValue: './docker/',
+        description: 'For forcing path to dockerfile')
     string(name: 'COMPONENTS',
         defaultValue: 'webapp db',
         description: 'Jenkins secret ID for ARM Registry Credentials')
@@ -64,9 +67,10 @@ spec:
             container('docker') {
               sh """
                   echo "Starting Docker Build for ${component}"
-                  docker build ./docker/${component}/ -t "${getFullImage(component)}"
+                  docker build ${DOCKERFILE_PATH}/${component}/ -t "${getFullImage(component)}"
                   docker push "${getFullImage(component)}"
               """
+            }
             }
           }
         }
