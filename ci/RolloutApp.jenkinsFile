@@ -31,8 +31,6 @@ pipeline {
     string(name: 'HELM_REPO',
         defaultValue: './k8s/helm',
         description: 'Empty by default and in such case set to APPLICATION name. Useful for forcing helm chart name.')
-        
-
   }
   stages {
     stage('Rebuild Application Containers') {
@@ -68,7 +66,7 @@ pipeline {
           [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: 'docker.ask4ua.com'],
           [$class: 'StringParameterValue', name: 'HELM_REPO', value: "${HELM_REPO}" ],
           [$class: 'StringParameterValue', name: 'HELM_CHART', value: "${HELM_CHART}" ],
-          [$class: 'StringParameterValue', name: 'HELM_RELEASE_NAME', value: "${HELM_RELEASE_NAME}.toLowerCase()" ],
+          [$class: 'StringParameterValue', name: 'HELM_RELEASE_NAME', value: "${HELM_RELEASE_NAME.toLowerCase()}" ],
           [$class: 'StringParameterValue', name: 'HELM_PARAMETERS', value: "--set image.tag=${TAG_NAME}" ],
           [$class: 'StringParameterValue', name: 'NAMESPACE', value: "${NAMESPACE}" ]
         ]
