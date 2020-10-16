@@ -68,7 +68,7 @@ spec:
             container('docker') {
               sh """
                   echo "Starting Docker Build for ${component}"
-                  docker build ${DOCKERFILE_PATH}/${component}/ -t "${getFullImage(component)}"
+                  docker build ${DOCKERFILE_PATH} -t "${getFullImage(component)}"
                   docker push "${getFullImage(component)}"
               """
             }
