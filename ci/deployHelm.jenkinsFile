@@ -44,7 +44,7 @@ spec:
         container('helm-cli') {
           sh """
             helm -n ${NAMESPACE} upgrade --install ${HELM_RELEASE_NAME} ${HELM_REPO} ${HELM_CHART} ${HELM_PARAMETERS} --wait
-            if [[ "?$" -ne 0 ]]; then
+            if [[ "?\$" -ne 0 ]]; then
               echo "helm rollout failed - rolling it back"
               helm rollback ${HELM_RELEASE_NAME}
               exit 1
