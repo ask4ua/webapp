@@ -28,7 +28,7 @@ spec:
         defaultValue: 'webapp',
         description: 'Helm chart name')
     string(name: 'HELM_RELEASE_NAME',
-        defaultValue: 'testRelease',
+        defaultValue: 'test-release',
         description: 'Helm release name')
     string(name: 'HELM_PARAMETERS',
         defaultValue: '',
