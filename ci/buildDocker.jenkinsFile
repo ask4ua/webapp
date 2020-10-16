@@ -22,7 +22,7 @@ metadata:
 labels:
   scope: jenkins
 spec:
-  # serviceAccountName: jenkins-webapp
+  # serviceAccountName: jenkins-master2staging
   containers:
   - name: docker
     image: docker:latest
