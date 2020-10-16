@@ -35,9 +35,6 @@ pipeline {
     stage('Rebuild Application Containers') {
       steps {
         script {
-          if (!COMPONENT) {
-            COMPONENT=APPLICATION
-          }
           env.TAG_NAME = build(job: 'buildDocker', parameters: [
               [$class: 'StringParameterValue', name: 'COMPONENTS', value: "${APPLICATION}"],
               [$class: 'StringParameterValue', name: 'DOCKER_REPO', value: "${DOCKER_REPO}"],
