@@ -33,7 +33,7 @@ pipeline {
         description: 'Empty by default and in such case set to APPLICATION name. Useful for forcing helm chart name.')
   }
   stages {
-    stage('Rebuild Application Containers') {
+    stage('Build Application Docker Containers') {
       steps {
         script {
           env.TAG_NAME = build(job: 'buildDocker', parameters: [

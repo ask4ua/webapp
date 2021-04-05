@@ -7,6 +7,18 @@ metadata:
   name: webapp
 spec:
   rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: webapp
+          servicePort: 80
+        path: /student00
+        #pathType: Prefix
+      - backend:
+          serviceName: webapp
+          servicePort: 80
+        path: /student00(/|$)(.*)
+    # host: - absence meaning * = all.
   - host: pro.camp
     http:
       paths:
